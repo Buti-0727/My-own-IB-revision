@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { PaperLibrary } from "./papers/paper-library";
+import { LMStudioSettings } from "./settings/lmstudio-settings";
 
 type Section = "Practice" | "Papers" | "Progress" | "Settings";
 
@@ -155,21 +156,5 @@ function SectionContent({ section, subject }: { section: Section; subject: strin
     );
   }
 
-  return (
-    <div className="section-empty">
-      <p className="eyebrow">Your setup</p>
-      <h1>Settings</h1>
-      <p className="intro-copy">Connect your local LM Studio model and manage your study data.</p>
-      <div className="settings-preview">
-        <div>
-          <span className="setting-label">AI feedback</span>
-          <strong>Runs through LM Studio on this laptop</strong>
-        </div>
-        <div>
-          <span className="setting-label">Your library</span>
-          <strong>Stored in this browser</strong>
-        </div>
-      </div>
-    </div>
-  );
+  return <LMStudioSettings />;
 }

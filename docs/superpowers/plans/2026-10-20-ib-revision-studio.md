@@ -241,7 +241,7 @@ Expected: PASS, including round-trip storage of Blob documents and rejection of 
 
 **Interfaces:** Produces `extractPdfPages(file): Promise<ExtractedPage[]>`, `suggestQuestionDrafts(pages): QuestionDraft[]`, `isExactSourceText(candidate, pages): boolean`, and `confirmQuestion(draft, confirmedFields): Promise<QuestionRecord>`.
 
-- [ ] **Step 1: Write failing PDF-import tests.**
+- [x] **Step 1: Write failing PDF-import tests.**
 
 ```ts
 const pages = [
@@ -256,7 +256,7 @@ expect(isExactSourceText("Invented question text", pages)).toBe(false);
 
 Also test that an incomplete paper/markscheme pair cannot be saved.
 
-- [ ] **Step 2: Run the tests and confirm they fail.**
+- [x] **Step 2: Run the tests and confirm they fail.**
 
 ```bash
 cd web
@@ -265,15 +265,15 @@ npm test -- tests/unit/pdf.test.ts tests/unit/paper-import.test.ts
 
 Expected: FAIL because PDF and paper-import functions do not exist.
 
-- [ ] **Step 3: Implement PDF.js loading and text extraction in the browser.**
+- [x] **Step 3: Implement PDF.js loading and text extraction in the browser.**
 
 Return page-numbered text without sending files to a network URL. Keep the original PDF Blob in browser storage. Configure the PDF.js worker as a local bundled asset and test it on the synthetic two-page fixture.
 
-- [ ] **Step 4: Implement editable question-boundary suggestions and source checks.**
+- [x] **Step 4: Implement editable question-boundary suggestions and source checks.**
 
 Split initial candidates at recognizable numbered-question headings. Preserve the extracted wording; let the user merge/split candidates, select question pages, select markscheme pages/text, and add topic tags. If exact-text validation fails, keep the item in review state. For image-only/scanned pages, show the PDF and allow manual transcription with an explicit source-page confirmation.
 
-- [ ] **Step 5: Implement the import and review screens.**
+- [x] **Step 5: Implement the import and review screens.**
 
 Require subject, exam session, component, question-paper PDF, and matching markscheme PDF. Include a clearly external resource link to the user-provided IB Docs subject-paper index; never fetch from it automatically. Show the full PDF at the selected source page beside extracted text. Do not persist a question as practice-ready until the user confirms wording, topic, page, and markscheme mapping.
 
@@ -286,6 +286,9 @@ npm test -- tests/unit/pdf.test.ts tests/unit/paper-import.test.ts
 
 Expected: PASS. Browser network inspection during manual import shows no request containing PDF bytes or extracted paper text.
 
+
+**Verification note (October 20, 2026):** The Papers screen renders locally, and a static audit found no outbound-request APIs in the import/extraction path. A file-level browser network capture was not performed, so Step 6 remains open.
+
 ## Task 4: Connect the App to LM Studio on Loopback
 
 **Files:** `web/src/lib/ai/contracts.ts`, `prompts.ts`, `web/src/lib/server/lmstudio.ts`, `web/src/app/api/lmstudio/models/route.ts`, `feedback/route.ts`, `topics/route.ts`, `web/src/components/settings/lmstudio-settings.tsx`, `web/tests/unit/lmstudio.test.ts`.
@@ -297,7 +300,7 @@ Expected: PASS. Browser network inspection during manual import shows no request
 - `POST /api/lmstudio/feedback` accepts `{ modelId, questionText, answer, markschemeText }` and returns `FeedbackResult`.
 - The server-side client reads `LM_STUDIO_BASE_URL`, defaults to `http://127.0.0.1:1234/v1`, and rejects non-loopback hosts.
 
-- [ ] **Step 1: Write failing route/client tests.**
+- [x] **Step 1: Write failing route/client tests.**
 
 ```ts
 expect(() => assertLoopbackBaseUrl("https://example.com/v1")).toThrow();
@@ -307,7 +310,7 @@ expect(assertLoopbackBaseUrl("http://127.0.0.1:1234/v1").hostname).toBe("127.0.0
 
 Test model-list success, disconnected response, malformed feedback JSON, invalid topic IDs, and image content encoding using a mocked `fetch`.
 
-- [ ] **Step 2: Run tests and confirm they fail.**
+- [x] **Step 2: Run tests and confirm they fail.**
 
 ```bash
 cd web
@@ -316,23 +319,23 @@ npm test -- tests/unit/lmstudio.test.ts
 
 Expected: FAIL because the local client and handlers do not exist.
 
-- [ ] **Step 3: Implement loopback-only LM Studio client and model discovery.**
+- [x] **Step 3: Implement loopback-only LM Studio client and model discovery.**
 
 Use the OpenAI-compatible `GET /v1/models` and `POST /v1/chat/completions` endpoints. Set a request timeout and map connection failures to a typed `LM_STUDIO_UNAVAILABLE` response. Do not accept arbitrary remote URLs from the browser. Enforce request-size limits before forwarding, especially for base64 answer images.
 
-- [ ] **Step 4: Implement topic suggestions with a strict allowed-ID contract.**
+- [x] **Step 4: Implement topic suggestions with a strict allowed-ID contract.**
 
 Ask the local model to select from the supplied syllabus topic IDs only. Validate the response with Zod; discard IDs not present in the request. The endpoint returns tags/reasons only and has no question-generation output field.
 
-- [ ] **Step 5: Implement markscheme feedback for text and image answers.**
+- [x] **Step 5: Implement markscheme feedback for text and image answers.**
 
 Send only the confirmed question, current typed answer or temporary image data URLs, and its confirmed markscheme text. Request a structured response with credited points, missing points, explanation, and uncertainty. Reject any model response that fails the Zod response schema. Do not request or display an official mark.
 
-- [ ] **Step 6: Add connection, text, and image-support checks in Settings.**
+- [x] **Step 6: Add connection, text, and image-support checks in Settings.**
 
 Show the models returned by LM Studio, let the user select one, and provide explicit text/image test actions. A successful model listing alone must not be labeled proof of image-reading quality. Save the selected model locally.
 
-- [ ] **Step 7: Run local AI tests.**
+- [x] **Step 7: Run local AI tests.**
 
 ```bash
 cd web
