@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/copy-pdf-worker.mjs",
+    "predev": "node scripts/open-lm-studio.mjs && node scripts/copy-pdf-worker.mjs",
     "dev": "NEXT_TELEMETRY_DISABLED=1 next dev --hostname 127.0.0.1",
     "prebuild": "node scripts/copy-pdf-worker.mjs",
     "build": "NEXT_TELEMETRY_DISABLED=1 next build",
-    "prestart": "node scripts/copy-pdf-worker.mjs",
+    "prestart": "node scripts/open-lm-studio.mjs && node scripts/copy-pdf-worker.mjs",
     "start": "NEXT_TELEMETRY_DISABLED=1 next start --hostname 127.0.0.1",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",

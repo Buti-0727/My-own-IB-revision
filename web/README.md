@@ -11,6 +11,8 @@ npm run dev
 
 Open [http://127.0.0.1:3000](http://127.0.0.1:3000). Use this exact address each time so the browser keeps one local library.
 
+On macOS, `npm run dev` and `npm run start` also open the LM Studio app. This does not start its Developer Server or load a model; enable those in LM Studio when you want AI feedback. If the app cannot be opened automatically, the website still starts.
+
 ## Current scope
 
 The workspace shell is in place. The paper library, practice flow, local model connection, and backup controls are being built next. Syllabus groupings are versioned and editable; confirm detailed syllabus subdivisions against your school's course guide.

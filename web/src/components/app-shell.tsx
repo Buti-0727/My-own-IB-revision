@@ -1,24 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import type { SubjectId } from "../lib/domain/types";
+import { SUBJECTS } from "../lib/domain/subjects";
 import { PaperLibrary } from "./papers/paper-library";
 import { LMStudioSettings } from "./settings/lmstudio-settings";
+import { PracticeWorkspace } from "./practice/session-builder";
 
 type Section = "Practice" | "Papers" | "Progress" | "Settings";
 
 const sections: Section[] = ["Practice", "Papers", "Progress", "Settings"];
-const subjects = [
-  "English B SL",
-  "Chinese A Language & Literature SL",
-  "Chemistry HL",
-  "Mathematics AA HL",
-  "Biology SL",
-  "Psychology HL",
-];
 
 export function AppShell() {
   const [activeSection, setActiveSection] = useState<Section>("Practice");
-  const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<SubjectId | null>(null);
 
   return (
     <div className="workspace">
@@ -46,19 +41,19 @@ export function AppShell() {
 
         <nav className="subject-nav" aria-label="Your subjects">
           <p className="nav-heading">Your subjects</p>
-          {subjects.map((subject) => (
+          {SUBJECTS.map((subject) => (
             <button
-              className={`subject-button${selectedSubject === subject ? " is-selected" : ""}`}
+              className={`subject-button${selectedSubject === subject.id ? " is-selected" : ""}`}
               type="button"
-              key={subject}
-              aria-pressed={selectedSubject === subject}
+              key={subject.id}
+              aria-pressed={selectedSubject === subject.id}
               onClick={() => {
-                setSelectedSubject(subject);
+                setSelectedSubject(subject.id);
                 setActiveSection("Practice");
               }}
             >
-              <span className="subject-initial" aria-hidden="true">{subject.charAt(0)}</span>
-              <span>{subject}</span>
+              <span className="subject-initial" aria-hidden="true">{subject.label.charAt(0)}</span>
+              <span>{subject.label}</span>
             </button>
           ))}
         </nav>
@@ -99,40 +94,9 @@ export function AppShell() {
   );
 }
 
-function SectionContent({ section, subject }: { section: Section; subject: string | null }) {
+function SectionContent({ section, subject }: { section: Section; subject: SubjectId | null }) {
   if (section === "Practice") {
-    return (
-      <div className="welcome-layout">
-        <div className="welcome-copy">
-          <p className="eyebrow">Your study space</p>
-          <h1>{subject ?? "What are you revising today?"}</h1>
-          <p className="intro-copy">
-            {subject
-              ? "Choose a topic to find questions from your verified past papers."
-              : "Select a subject to start a focused revision session."}
-          </p>
-          <div className="welcome-actions">
-            {subject ? (
-              <div className="empty-state-inline">
-                <span className="empty-state-icon" aria-hidden="true">+</span>
-                <span>Verified questions will appear here once your papers are added.</span>
-              </div>
-            ) : (
-              <p className="action-hint">Your subjects are listed on the left.</p>
-            )}
-          </div>
-        </div>
-        <aside className="session-note" aria-label="How revision works">
-          <span className="note-rule" aria-hidden="true" />
-          <h2>Practice from your papers</h2>
-          <p>Questions are checked against the original paper and paired with its official markscheme before practice.</p>
-          <div className="note-bottom">
-            <span>Question source</span>
-            <strong>Your uploaded papers</strong>
-          </div>
-        </aside>
-      </div>
-    );
+    return <PracticeWorkspace subjectId={subject} />;
   }
 
   if (section === "Papers") {
