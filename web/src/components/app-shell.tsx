@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PaperLibrary } from "./papers/paper-library";
 
 type Section = "Practice" | "Papers" | "Progress" | "Settings";
 
@@ -134,20 +135,7 @@ function SectionContent({ section, subject }: { section: Section; subject: strin
   }
 
   if (section === "Papers") {
-    return (
-      <div className="section-empty">
-        <p className="eyebrow">Paper library</p>
-        <h1>Papers</h1>
-        <p className="intro-copy">Your past papers and markschemes will live here after you add them.</p>
-        <div className="empty-state-card">
-          <span className="empty-state-icon" aria-hidden="true">+</span>
-          <div>
-            <h2>Your library is ready</h2>
-            <p>Add a paper and its matching markscheme. You will confirm each question before it enters practice.</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <PaperLibrary />;
   }
 
   if (section === "Progress") {

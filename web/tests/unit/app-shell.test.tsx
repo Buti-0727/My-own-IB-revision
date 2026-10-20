@@ -32,6 +32,8 @@ describe("AppShell", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Papers" }));
     expect(screen.getByRole("heading", { name: "Papers" })).toBeInTheDocument();
-    expect(screen.getByText(/Your past papers and markschemes will live here/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Question paper PDF/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Official markscheme PDF/)).toBeInTheDocument();
+    expect(screen.getByText("PDFs are read in this browser. They are not sent to an online service.")).toBeInTheDocument();
   });
 });

@@ -18,6 +18,7 @@
 /out/
 
 # production
+/public/pdf.worker.min.mjs
 /build
 
 # misc
