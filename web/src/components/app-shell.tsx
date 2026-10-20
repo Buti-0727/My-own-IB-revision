@@ -107,7 +107,7 @@ function SectionContent({ section, subject }: { section: Section; subject: strin
           <p className="intro-copy">
             {subject
               ? "Choose a topic to find questions from your verified past papers."
-              : "Choose one of your subjects to start a focused revision session."}
+              : "Select a subject to start a focused revision session."}
           </p>
           <div className="welcome-actions">
             {subject ? (

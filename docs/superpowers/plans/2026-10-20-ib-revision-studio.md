@@ -82,6 +82,7 @@ export interface StoredDocument {
   fileName: string;
   mimeType: "application/pdf";
   blob: Blob;
+  size: number;
 }
 
 export interface PaperRecord {
@@ -89,6 +90,7 @@ export interface PaperRecord {
   subjectId: SubjectId;
   examSession: string;
   component: string;
+  syllabusVersion: string;
   questionDocumentId: string;
   markschemeDocumentId: string;
   createdAt: string;
@@ -104,6 +106,7 @@ export interface QuestionRecord {
   markschemePages: number[];
   topicIds: string[];
   verified: boolean;
+  status: "draft" | "confirmed";
 }
 
 export type SelfRating = "again" | "hard" | "good";
@@ -189,7 +192,7 @@ Expected: all three commands pass, and the app starts at `http://127.0.0.1:3000`
 
 **Interfaces:** Produces the shared contracts above, `SUBJECTS`, `getTopicsForSubject(subjectId, syllabusVersion)`, `listPracticeQuestions(subjectId, topicId)`, and repository methods `savePaperBundle`, `confirmQuestion`, `listQuestions`, `saveAttempt`, and `listAttempts`.
 
-- [ ] **Step 1: Write failing domain tests.**
+- [x] **Step 1: Write failing domain tests.**
 
 ```ts
 expect(SUBJECTS.map(({ id }) => id)).toEqual([
@@ -206,7 +209,7 @@ expect(listPracticeQuestions([draftQuestion, confirmedQuestion], "chemistry-hl",
 
 Add tests that every course has a versioned editable topic list and custom topics are returned only for their subject.
 
-- [ ] **Step 2: Run the focused tests and confirm they fail.**
+- [x] **Step 2: Run the focused tests and confirm they fail.**
 
 ```bash
 cd web
@@ -215,15 +218,15 @@ npm test -- tests/unit/domain.test.ts tests/unit/storage.test.ts
 
 Expected: FAIL because the domain and repository modules do not exist.
 
-- [ ] **Step 3: Implement the six subject records and versioned topic catalog.**
+- [x] **Step 3: Implement the six subject records and versioned topic catalog.**
 
 Require the user to choose their exam session before selecting a syllabus-version key. Seed concise topic headings for all six subjects from the applicable official IB subject guides for that session; store each guide title, source link, and first-assessment/session label next to the catalog. Verify each catalog against the current official IB material instead of guessing from older subject guides. Keep labels editable and support custom topic entries. Do not copy explanatory guide text into the app.
 
-- [ ] **Step 4: Implement the Dexie schema and repository functions.**
+- [x] **Step 4: Implement the Dexie schema and repository functions.**
 
 Create separate tables for papers, PDF blobs, questions, topics, settings, and attempts. Persist only question attempts and self-ratings. Store `verified` as a required boolean and ensure the practice query always filters `verified === true`. On first use, request persistent browser storage when supported and show `navigator.storage.estimate()` usage. Translate quota errors into a clear message that preserves the existing library and points to backup/export or removal of an unwanted PDF.
 
-- [ ] **Step 5: Run the focused tests and add migration coverage.**
+- [x] **Step 5: Run the focused tests and add migration coverage.**
 
 ```bash
 cd web

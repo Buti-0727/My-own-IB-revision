@@ -13,8 +13,8 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000). Use this exact address each
 
 ## Current scope
 
-The workspace shell is in place. The paper library, practice flow, local model connection, and backup controls are being built next.
+The workspace shell is in place. The paper library, practice flow, local model connection, and backup controls are being built next. Syllabus groupings are versioned and editable; confirm detailed syllabus subdivisions against your school's course guide.
 
 ## Privacy
 
-The app binds to `127.0.0.1`. Do not change this to a network-wide host. Uploaded PDFs and progress are intended to stay in browser storage. AI requests will go only to LM Studio on this same laptop.
+The app binds to `127.0.0.1`. Next.js telemetry is disabled for the app scripts. Do not change the bind address to a network-wide host. Uploaded PDFs and progress are intended to stay in browser storage. AI requests will go only to LM Studio on this same laptop.
